@@ -51,3 +51,43 @@ Application demo available at https://gagandeep39.github.io/react-redux-demo
 
 ### Steps to use React with redux
 - Install package `react-redux` using `npm install --save react-redux`
+- Create a reducer component
+  ```js
+  const initialState = {
+    counter: 0
+  }
+
+  export default function reducer(state = initialState, action) {
+      return state;
+  }
+  ```
+- Create a store and enclose the root component in a provider tag
+  ```js
+  const store = createStore(reducer);
+  
+  // Inside render
+  <Provider>
+    <App store={store}/>
+  </Provider>
+  ```
+- Connect store to react by providijg  dispatcher and state
+  ```js
+  // After writing component logic
+  const mapStateToProps = state => {
+    return {
+        ctr: state.counter
+    };
+  }
+  const mapDispatchToProps = dispatch => {
+    return {
+        onIncrementCounter: () => {
+            dispatch({type: 'INCREMENT'})
+        }
+    }
+  }
+
+  export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+  ```
+  - Above line creates a component with states and dispatcher to modify the state a parameter
+  - Takes mapStateToProps, mapDispatchToProps as parameter
+  - The parameters can then be accessed as props in the container

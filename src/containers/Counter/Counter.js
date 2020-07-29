@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
+//Function that returns a Higher order component we use during component export 
+import { connect } from 'react-redux';
 
 class Counter extends Component {
     state = {
@@ -28,8 +30,8 @@ class Counter extends Component {
     render () {
         return (
             <div>
-                <CounterOutput value={this.state.counter} />
-                <CounterControl label="Increment" clicked={() => this.counterChangedHandler( 'inc' )} />
+                <CounterOutput value={this.props.ctr} />
+                <CounterControl label="Increment" clicked={this.props.onIncrementCounter} />
                 <CounterControl label="Decrement" clicked={() => this.counterChangedHandler( 'dec' )}  />
                 <CounterControl label="Add 5" clicked={() => this.counterChangedHandler( 'add', 5 )}  />
                 <CounterControl label="Subtract 5" clicked={() => this.counterChangedHandler( 'sub', 5 )}  />
@@ -38,4 +40,24 @@ class Counter extends Component {
     }
 }
 
-export default Counter;
+// Store state
+const mapStateToProps = state => {
+    return {
+        ctr: state.counter
+    };
+}
+
+// Store modification logicc
+const mapDispatchToProps = dispatch => {
+    return {
+        // Calling this will execute dispatch functin
+        onIncrementCounter: () => {
+            dispatch({type: 'INCREMENT'})
+        }
+    }
+}
+
+// Below line creates a component
+// Takes mapStateToProps as parameter
+// The parameers can then be used as props in the container
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
