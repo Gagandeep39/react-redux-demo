@@ -38,8 +38,10 @@ export default function reducer(state = initialState, action) {
         results: state.results.concat({id: new Date(), value: state.counter}) // Substitue of.push method as this is immutable(Creates copy of array)
       }
     case 'DELETE_RESULT':
+      const updatedArray = state.results.filter(results => results.id != action.elementId)
       return {
-        
+        ...state,
+        results: updatedArray
       }
   }
     return state;
