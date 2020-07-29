@@ -91,3 +91,22 @@ Application demo available at https://gagandeep39.github.io/react-redux-demo
   - Above line creates a component with states and dispatcher to modify the state a parameter
   - Takes mapStateToProps, mapDispatchToProps as parameter
   - The parameters can then be accessed as props in the container
+
+## Division of reducers
+- We hcn create moultiple reducer and combine them to one
+- 2 reducers cannot communicate with each other from inside
+- Data from one reducer to another must be passed from ouside the reducer
+- Combining 2 reducer
+  ```js
+  import { createStore, combineReducers } from 'redux';
+  const rootReducer = combineReducers({
+    ctr: counterReducer,
+    res: resultReducer
+  })
+  const store = createStore(rootReducer);
+  ```
+
+## When to use redux
+- Local UI changes can be performed using normal state management or with redux
+- Persitant dta associated to a particulra user can be stored using redux
+- User authentication iformation
