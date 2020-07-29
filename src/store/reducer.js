@@ -15,11 +15,11 @@ export default function reducer(state = initialState, action) {
       }
     case 'ADD':
       return {
-        counter: state.counter + 5
+        counter: state.counter + action.value
       }
     case 'SUB':
       return {
-        counter: state.counter -5
+        counter: state.counter -action.value
       }
   }
     return state;
