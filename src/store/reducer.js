@@ -1,3 +1,4 @@
+import * as actionTypes from './actions';
 
 const initialState = {
   counter: 0,
@@ -6,7 +7,7 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case 'INCREMENT':
+    case actionTypes.INCREMENT:
       // Different from constNewState = state as it creates a clone instead of providing referece
       // We must always make a copy i.e update objects immutably
       // const newState = Object.assign({}, state);
@@ -17,27 +18,27 @@ export default function reducer(state = initialState, action) {
         ...state,
         counter: state.counter + 1
       }
-    case 'DECREMENT':
+    case actionTypes.DECREMENT:
       return {
         ...state,
         counter: state.counter - 1
       }
-    case 'ADD':
+    case actionTypes.ADD:
       return {
         ...state,
         counter: state.counter + action.value
       }
-    case 'SUB':
+    case actionTypes.SUBSTRACT:
       return {
         ...state,
         counter: state.counter -action.value
       }
-    case 'STORE_RESULT':
+    case actionTypes.STORE_RESULT:
       return {
         ...state,
         results: state.results.concat({id: new Date(), value: state.counter}) // Substitue of.push method as this is immutable(Creates copy of array)
       }
-    case 'DELETE_RESULT':
+    case actionTypes.DELETE_RESULT:
       const updatedArray = state.results.filter(results => results.id != action.elementId)
       return {
         ...state,
