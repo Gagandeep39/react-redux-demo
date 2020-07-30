@@ -4,7 +4,8 @@ import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
 //Function that returns a Higher order component we use during component export 
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions/actions';
+// import * as actionTypes from '../../store/actions/actions';
+import * as actionCreator from '../../store/actions/actions';
 
 class Counter extends Component {
     state = {
@@ -62,23 +63,23 @@ const mapDispatchToProps = dispatch => {
     return {
         // Calling this will execute dispatch functin
         onIncrementCounter: () => {
-            dispatch({type: actionTypes.INCREMENT})
+            dispatch(actionCreator.increment())
         },
         onDecrementCounter: () => {
-            dispatch({type: actionTypes.DECREMENT})
+            dispatch(actionCreator.decrement())
         },
         onAdd: () => {
-            dispatch({type: actionTypes.ADD, value: 5})
+            dispatch(actionCreator.add(5))
         },
         onSubstract: () => {
-            dispatch({type: actionTypes.SUBSTRACT, value: 5})
+            dispatch(actionCreator.sub(5))
         },
         onStoreResult: (result) => {
             // Here we will need to provide the rest as the reducer doesnt have direct access t it
-            dispatch({type: actionTypes.STORE_RESULT, result: result})
+            dispatch(actionCreator.storeResult(result))
         },
         onDeleteResult: (id) => {
-            dispatch({type: actionTypes.DELETE_RESULT, elementId: id})
+            dispatch(actionCreator.deleteResult(id))
         }
     }
 }
