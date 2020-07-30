@@ -105,8 +105,106 @@ Application demo available at https://gagandeep39.github.io/react-redux-demo
   })
   const store = createStore(rootReducer);
   ```
+- NOTE: Reducer function runs synchronously i.e Any code such as http request or timeout will not give desired result
 
 ## When to use redux
 - Local UI changes can be performed using normal state management or with redux
 - Persitant dta associated to a particulra user can be stored using redux
 - User authentication iformation
+
+## Midleware
+- Code executed between dispatching action and exuting loginc in reducer store
+- Snippet
+  ```js
+  // Import Statement
+  import { createStore, combineReducers, applyMiddleware } from 'redux';
+  // Creatinga logger
+  const logger = (store) => {
+    return next => {
+      return action => {
+        console.log('[Middleware] Dispatching', action);
+        // Ensures dispatcher to execute action in reducer and update state
+        const result = next(action);
+        console.log('[Middleware next state]', store.getState());
+        // to show updated changes in UI
+        return result;
+      }
+    }
+  }
+  ```
+
+
+## Redux Entension Guide
+- Refer the [link](https://github.com/zalmoxisus/redux-devtools-extension) to set up Redux devtool chorme extension
+- Allows us to playback various action
+- Allows manipulating values
+- Provides flow chart
+- Allows running tests
+- Add below code after after installing extension
+  ```js
+  // Import middleware and compose
+  import { applyMiddleware, compose } from 'redux';
+  // Enhancer constant
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  // Create store
+  // createStore(reducer, compoeEnhancer(appliMiddleware(middlewareFunction)));
+  const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger)));
+  ```
+
+## Action Creator
+- Used in synchronous action code eg. http requests from reducer
+- Name convection - Camel case with sam name as the action name eg. action: 'INCREMENT' will have creator as 'increment'
+- When executed, gives us an action
+- Improves code structure
+- Snippet
+  ```js
+  // Creating
+  const increment = () => {
+    return {
+      type: INCREMENT
+    };
+  }
+
+  // Using
+  onIncrementCounter: () => {
+    dispatch(increment)
+  },
+  ```
+
+## Redux Thunk
+- Provides a middleware for redux
+- Allows executing asynchronous code
+- Makes the code wait until asynhrnous code has been executed
+- Documentation [link](https://github.com/reduxjs/redux-thunk)
+- Snippet
+  ```js
+  export const storeResultAsynchronously = (res) => {
+    return {
+      type: STORE_RESULT,
+      result: res,
+    };
+  };
+  // Method to be called by the component
+  export const storeResult = (res) => {
+    // All asynchronous code must be writen in below function
+    // Redux thunk provides us with additional parameter i.e current state
+    return (dispatch, getState) => {
+      setTimeout(() => {
+        dispatch(storeResultAsynchronously(res));
+      }, 1000);
+    };
+  };
+  ```
+  - Here we will call storeResult method, which waits for 1 sec and then calls the actual action creator
+
+### Action Creator
+- Can run async code
+- Avoid puting too much logic here
+- Only use it for async code
+### Reducer 
+- Only runs sync code
+- Where the state is updated
+- All state anagement logic mut be stored here
+
+## Redux Extras
+- Follow the [link](https://redux.js.org/) for official docs
