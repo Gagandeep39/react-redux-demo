@@ -27,10 +27,17 @@ export const sub = (val) => {
     value: val,
   };
 };
-export const storeResult = (res) => {
+export const storeResultAsynchronously = (res) => {
   return {
     type: STORE_RESULT,
     result: res,
+  };
+};
+export const storeResult = (res) => {
+  return (dispatch) => {
+    setTimeout(() => {
+      dispatch(storeResult(res));
+    }, 1000);
   };
 };
 export const deleteResult = (id) => {
